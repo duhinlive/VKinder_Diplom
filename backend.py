@@ -22,7 +22,7 @@ class VKTools:
     def get_profile_info(self, user_id):
 
         try:
-            info, = self.vkapi.metod('users.get',
+            info, = self.vkapi.method('users.get',
 						{'user_id': user_id,
 						'fields': 'city, sex, bdate, relation'
 						}
