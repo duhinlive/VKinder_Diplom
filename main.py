@@ -1,7 +1,9 @@
 from pprint import pprint
 import vk_api
+from vk_api.exceptions import ApiError
 
 from config import access_token
+
 
 #получкение данных о пользователе
 
@@ -18,4 +20,23 @@ class VKTools:
 						'fields': 'city, sex, bdate, relation'
 						}
 						)
-		except _
+		except ApiError as e:
+			info = {}
+			print(f'error = {e}')
+
+
+		result = {'name': info['first_name'] + ' ' + info['last_name'],
+			'sex': info['sex'],
+			'city': info['city']['title'],
+			'bdate': info['bdate']
+			}
+		return result
+
+
+if __name__ == '__main__':
+	user_id = 803689260
+	tools = VkTools(access_token)
+	params = tools.get_profile_info(user_id)
+
+
+
