@@ -1,4 +1,4 @@
 community_token = ''
 access_token = ''
 
-db_url_object = ""
+db_url_object = "postgresql://postgres:Qwerty777@localhost:5432/vkinder"
