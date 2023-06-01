@@ -23,10 +23,10 @@ class VkTools:
 
         try:
             info, = self.vkapi.method('users.get',
-                        {'user_id': user_id,
-                        'fields': 'city, sex, bdate, relation'
-                        }
-                        )
+                                    {'user_id': user_id,
+                                        'fields': 'city, sex, bdate, relation'
+                                    }
+                                    )
             '''  #если дата рождения или город, пол is None, то запрашивать у пользлвателя,обрабатывая result. Проверить его на поля, которые в нем None и те поля которые Noneотправить пользователю запрос. время вебинара 01:14:00'''
 
         except ApiError as e:
@@ -88,7 +88,7 @@ class VkTools:
                    'comments': item['comments']['count']
                    } for item in photos['items']
                   ]
-        '''сортировка п лайкам и комментам'''
+        '''сортировка по лайкам и комментам'''
         return result[:3]
 
 
