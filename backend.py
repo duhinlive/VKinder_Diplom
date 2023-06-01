@@ -23,24 +23,24 @@ class VkTools:
 
         try:
             info, = self.vkapi.method('users.get',
-						{'user_id': user_id,
-						'fields': 'city, sex, bdate, relation'
-						}
-						) #если дата рождения или город, пол is None, то запрашивать у пользлвателя,
-        # обрабатывая result. Проверить его на поля, которые в нем None и те поля которые None
-		# отправить пользователю запрос. время вебинара 01:14:00
+                        {'user_id': user_id,
+                        'fields': 'city, sex, bdate, relation'
+                        }
+                        )
+            '''  #если дата рождения или город, пол is None, то запрашивать у пользлвателя,обрабатывая result. Проверить его на поля, которые в нем None и те поля которые Noneотправить пользователю запрос. время вебинара 01:14:00'''
 
-		except ApiError as e:
+        except ApiError as e:
             info = {}
             print(f'error = {e}')
 
-        result = {'name': (info['first_name'] + ' ' + info['last_name'])
-					if 'first_name' in info and 'last_name' in info else None,
-			'sex': info.get('sex'),
-			'city': info.get('city')['title'] if info.get('city') is not None else None,
-			'year': self._bdate_toyear(info.get('bdate'))
-			}
-        return result
+            result = {'name': (info['first_name'] + ' ' + info['last_name'])
+                        if 'first_name' in info and 'last_name' in info else None,
+                'sex': info.get('sex'),
+                'city': info.get('city')['title'] if info.get('city') is not None else None,
+                'year': self._bdate_toyear(info.get('bdate'))
+                }
+
+            return result
 
     def search_worksheet(self, params, offset):
         try:
@@ -55,9 +55,7 @@ class VkTools:
                                           'age_to': params['year'] + 3,
                                       }
                                       )
-            '''если дата рождения или город, пол is None, то запрашивать у пользлвателя,
-        # обрабатывая result. Проверить его на поля, которые в нем None и те поля которые None
-		# отправить пользователю запрос. время вебинара 01:14:00'''
+            '''если дата рождения или город, пол is None, то запрашивать у пользлвателя, обрабатывая result. Проверить его на поля, которые в нем None и те поля которые None отправить пользователю запрос. время вебинара 01:14:00'''
 
         except ApiError as e:
             users = []
