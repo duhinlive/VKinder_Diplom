@@ -103,7 +103,3 @@ if __name__ == '__main__':
     photos = tools.get_photos(worksheet['id'])
 
     pprint(worksheets)
-
-
-
-
