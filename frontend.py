@@ -7,6 +7,7 @@ from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 
 from config import community_token, access_token
 from backend import VkTools
+
 # отправка сообщений
 
 
