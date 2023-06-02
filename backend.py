@@ -11,7 +11,7 @@ from config import access_token
 
 class VkTools:
     def __init__(self, access_token):
-        self.vkapi = vk_api.VkApi(token = access_token)
+        self.vkapi = vk_api.VkApi(token=access_token)
 
     def _bdate_toyear(self, bdate):
         user_year = bdate.split('.')[2] # if bdate else None   время 01:22:00
@@ -34,14 +34,14 @@ class VkTools:
             info = {}
             print(f'error = {e}')
 
-            result = {'name': (info['first_name'] + ' ' + info['last_name'])
+        result = {'name': (info['first_name'] + ' ' + info['last_name'])
                         if 'first_name' in info and 'last_name' in info else None,
                 'sex': info.get('sex'),
                 'city': info.get('city')['title'] if info.get('city') is not None else None,
                 'year': self._bdate_toyear(info.get('bdate'))
                 }
 
-            return result
+        return result
 
     def search_worksheet(self, params, offset):
         try:
@@ -62,8 +62,7 @@ class VkTools:
             users = []
             print(f'error = {e}')
 
-
-        result = [{'name': item['first_name'] + item['last_name'],
+        result = [{'name': item['first_name'] +' '+ item['last_name'],
                    'id': item['id']
                    } for item in users['items'] if item['is_closed'] is False
                   ]

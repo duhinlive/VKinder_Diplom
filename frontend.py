@@ -33,9 +33,8 @@ class BotInterface():
                 if event.text.lower() == 'привет':
                     '''Логика для получения данных о пользователе'''
                     self.params = self.vk_tools.get_profile_info(event.user_id)
-                    if self.params is not None and 'name' in self.params:  # почему срабатывает это?
-                        self.message_send(
-                        event.user_id, f'Привет друг, {self.params["name"]}')
+                    if self.params is not None:  # почему срабатывает это?
+                        self.message_send(event.user_id, f'Привет друг, {self.params["name"]}')
                     else:
                         self.message_send(event.user_id, 'Ошибка получения данных')  # почему срабатывает это?
                 elif event.text.lower() == 'поиск':
