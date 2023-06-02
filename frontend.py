@@ -3,6 +3,8 @@ import vk_api
 from vk_api.longpoll import VkLongPoll, VkEventType
 from vk_api.utils import get_random_id
 
+from vk_api.keyboard import VkKeyboard, VkKeyboardColor
+
 from config import community_token, access_token
 from backend import VkTools
 # отправка сообщений
@@ -17,12 +19,14 @@ class BotInterface():
         self.worksheets = []
         self.offset = 0
 
-    def message_send(self, user_id, message, attachment=None):
+    def message_send(self, user_id, message, keyboard, attachment=None):
         self.vk.method('messages.send',
                        {'user_id': user_id,
                         'message': message,
                         'attachment': attachment,
-                        'random_id': get_random_id()}
+                        'random_id': get_random_id(),
+                        'keyboard': keyboard
+                        }
                        )
 
 # обработка событий / получение сообщений
@@ -33,14 +37,19 @@ class BotInterface():
                 if event.text.lower() == 'привет':
                     '''Логика для получения данных о пользователе'''
                     self.params = self.vk_tools.get_profile_info(event.user_id)
-                    if self.params is not None:  # почему срабатывает это?
-                        self.message_send(event.user_id, f'Привет друг, {self.params["name"]}')
+                    if self.params is not None:  # Ошибка если инф. не получена
+
+                        buttons = ['Поиск', 'Пока']
+                        button_colors = [VkKeyboardColor.SECONDARY, VkKeyboardColor.POSITIVE, VkKeyboardColor.PRIMARY]
+                        keyboard = self.chat_keyboard(buttons, button_colors)
+
+                        self.message_send(event.user_id, f'Привет друг, {self.params["name"]}', keyboard=keyboard.get_keyboard())
                     else:
-                        self.message_send(event.user_id, 'Ошибка получения данных')  # почему срабатывает это?
+                        self.message_send(event.user_id, 'Ошибка получения данных', keyboard=keyboard.get_keyboard())
                 elif event.text.lower() == 'поиск':
                     '''Логика для поиска анкет'''
                     self.message_send(
-                        event.user_id, 'Начинаем поиск')
+                        event.user_id, 'Начинаем поиск', keyboard=keyboard.get_keyboard())
                     if self.worksheets:
                         worksheet = self.worksheets.pop()
                         photos = self.vk_tools.get_photos(worksheet['id'])
@@ -62,18 +71,27 @@ class BotInterface():
 
                     self.message_send(
                         event.user_id,
-                        f'имя: {worksheet["name"]} ссылка: vk.com/{worksheet["id"]}',
-                        attachment=photo_string
+                        f'имя: {worksheet["name"]} ссылка: vk.com/id{worksheet["id"]}',
+                        attachment=photo_string, keyboard=keyboard.get_keyboard()
                     )
 
                     'добавить анкету в бд в соотвествие с event.user_id'
 
                 elif event.text.lower() == 'пока':
                     self.message_send(
-                        event.user_id, 'До новых встреч')
+                        event.user_id, 'До новых встреч', keyboard=keyboard.get_keyboard())
                 else:
                     self.message_send(
-                        event.user_id, 'Неизвестная команда')
+                        event.user_id, 'Неизвестная команда', keyboard=keyboard.get_keyboard())
+
+
+    def chat_keyboard(self, buttons, button_colors):
+        """Клавиатура"""
+        keyboard = VkKeyboard.get_empty_keyboard()
+        keyboard = VkKeyboard(one_time=True)
+        for btn, btn_color in zip(buttons, button_colors):
+            keyboard.add_button(btn, btn_color)
+        return keyboard
 
 
 if __name__ == '__main__':
