@@ -34,6 +34,7 @@ class BotInterface():
 
     def event_handler(self):
         for event in self.longpoll.listen():
+
             # Кнопки
             buttons = ['Привет', 'Поиск', 'Пока']
             button_colors = [VkKeyboardColor.PRIMARY, VkKeyboardColor.POSITIVE, VkKeyboardColor.SECONDARY]
