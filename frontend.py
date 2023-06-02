@@ -37,7 +37,7 @@ class BotInterface():
 
             # Кнопки
             buttons = ['Привет', 'Поиск', 'Пока']
-            button_colors = [VkKeyboardColor.PRIMARY, VkKeyboardColor.POSITIVE, VkKeyboardColor.SECONDARY]
+            button_colors = [VkKeyboardColor.PRIMARY, VkKeyboardColor.PRIMARY, VkKeyboardColor.PRIMARY]
             keyboard = self.chat_keyboard(buttons, button_colors)
 
             if event.type == VkEventType.MESSAGE_NEW and event.to_me:
@@ -46,6 +46,9 @@ class BotInterface():
                     self.params = self.vk_tools.get_profile_info(event.user_id)
                     if self.params is not None:  # Ошибка если инф. не получена
                         self.message_send(event.user_id, f'Привет друг, {self.params["name"]}!', keyboard=keyboard.get_keyboard())
+
+                            # if .... если нет города даты рожд или пола то запросить и обработать
+
                     else:
                         self.message_send(event.user_id, 'Ошибка получения данных', keyboard=keyboard.get_keyboard())
                 elif event.text.lower() == 'поиск':
@@ -69,11 +72,11 @@ class BotInterface():
                         photo_string = ''
                         for photo in photos:
                             photo_string += f'photo{photo["owner_id"]}_{photo["id"]},'
-                        self.offset += 10
+                        self.offset += 50
 
                     self.message_send(
                         event.user_id,
-                        f'имя: {worksheet["name"]} ссылка: vk.com/id{worksheet["id"]}',
+                        f'Имя: {worksheet["name"]} Ссылка: vk.com/id{worksheet["id"]}',
                         attachment=photo_string, keyboard=keyboard.get_keyboard()
                     )
 

@@ -14,7 +14,7 @@ class VkTools:
         self.vkapi = vk_api.VkApi(token=access_token)
 
     def _bdate_toyear(self, bdate):
-        user_year = bdate.split('.')[2] # if bdate else None   время вебинара 01:22:00
+        user_year = bdate.split('.')[2] if bdate else None   # время вебинара 01:22:00
         now = datetime.now().year
         return now - int(user_year)
 
@@ -56,7 +56,6 @@ class VkTools:
                                           'age_to': params['year'] + 3,
                                       }
                                       )
-            '''если дата рождения или город, пол is None, то запрашивать у пользлвателя, обрабатывая result. Проверить его на поля, которые в нем None и те поля которые None отправить пользователю запрос. время вебинара 01:14:00'''
 
         except ApiError as e:
             users = []
