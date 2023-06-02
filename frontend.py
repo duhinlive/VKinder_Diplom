@@ -34,17 +34,17 @@ class BotInterface():
 
     def event_handler(self):
         for event in self.longpoll.listen():
+            # Кнопки
+            buttons = ['Привет', 'Поиск', 'Пока']
+            button_colors = [VkKeyboardColor.PRIMARY, VkKeyboardColor.POSITIVE, VkKeyboardColor.SECONDARY]
+            keyboard = self.chat_keyboard(buttons, button_colors)
+
             if event.type == VkEventType.MESSAGE_NEW and event.to_me:
                 if event.text.lower() == 'привет':
                     '''Логика для получения данных о пользователе'''
                     self.params = self.vk_tools.get_profile_info(event.user_id)
                     if self.params is not None:  # Ошибка если инф. не получена
-
-                        buttons = ['Поиск', 'Пока']
-                        button_colors = [VkKeyboardColor.SECONDARY, VkKeyboardColor.POSITIVE, VkKeyboardColor.PRIMARY]
-                        keyboard = self.chat_keyboard(buttons, button_colors)
-
-                        self.message_send(event.user_id, f'Привет друг, {self.params["name"]}', keyboard=keyboard.get_keyboard())
+                        self.message_send(event.user_id, f'Привет друг, {self.params["name"]}!', keyboard=keyboard.get_keyboard())
                     else:
                         self.message_send(event.user_id, 'Ошибка получения данных', keyboard=keyboard.get_keyboard())
                 elif event.text.lower() == 'поиск':
