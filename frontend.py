@@ -47,7 +47,7 @@ class BotInterface():
                     if self.params is not None:  # Ошибка если инф. не получена
                         self.message_send(event.user_id, f'Привет друг, {self.params["name"]}!', keyboard=keyboard.get_keyboard())
 
-                            # if .... если нет города даты рожд или пола то запросить и обработать
+                            # if ....  если нет города даты рожд или пола то запросить и обработать
 
                     else:
                         self.message_send(event.user_id, 'Ошибка получения данных', keyboard=keyboard.get_keyboard())

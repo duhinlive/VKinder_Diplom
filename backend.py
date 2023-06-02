@@ -14,7 +14,7 @@ class VkTools:
         self.vkapi = vk_api.VkApi(token=access_token)
 
     def _bdate_toyear(self, bdate):
-        user_year = bdate.split('.')[2] if bdate else None   # время вебинара 01:22:00
+        user_year = bdate.split('.')[2] if bdate else None   # время вебинара  01:22:00
         now = datetime.now().year
         return now - int(user_year)
 
