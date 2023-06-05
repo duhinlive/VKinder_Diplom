@@ -7,6 +7,8 @@ from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 
 from config import community_token, access_token
 from backend import VkTools
+from bd import BdTools
+from bd import engine    #++++++++++++
 
 # отправка сообщений
 
@@ -16,6 +18,7 @@ class BotInterface():
         self.vk = vk_api.VkApi(token=community_token)
         self.longpoll = VkLongPoll(self.vk)
         self.vk_tools = VkTools(access_token)
+        self.bd_tools = BdTools(engine)       #+++++++++++
         self.params = {}
         self.worksheets = []
         self.offset = 0
@@ -85,7 +88,8 @@ class BotInterface():
                         attachment=photo_string, keyboard=keyboard.get_keyboard()
                     )
 
-                    'добавить анкету в бд в соотвествие с event.user_id'
+                    'добавление анкеты в бд в соотвествие с event.user_id'
+                    self.bd_tools.add_user(event.user_id, worksheet["id"])  # добавление если нет в базе
 
                 elif event.text.lower() == 'пока':
                     self.message_send(
