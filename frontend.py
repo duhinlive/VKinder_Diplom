@@ -18,7 +18,8 @@ class BotInterface():
         self.vk = vk_api.VkApi(token=community_token)
         self.longpoll = VkLongPoll(self.vk)
         self.vk_tools = VkTools(access_token)
-        self.bd_tools = BdTools(engine)       #+++++++++++
+        self.bd_tools = BdTools(engine)       # +++++++++++
+        self.check_user = BdTools(engine)     # +++++++++++
         self.params = {}
         self.worksheets = []
         self.offset = 0
@@ -75,6 +76,7 @@ class BotInterface():
                         self.worksheets = self.vk_tools.search_worksheet(self.params, self.offset)
                         worksheet = self.worksheets.pop()
                         '''првоерка анкеты в бд в соотвествие с event.user_id'''
+                        # if self.bd_tools.check_user(event.user_id, worksheet["id"]) is False:   #+++
 
                         photos = self.vk_tools.get_photos(worksheet['id'])
                         photo_string = ''
@@ -89,7 +91,8 @@ class BotInterface():
                     )
 
                     'добавление анкеты в бд в соотвествие с event.user_id'
-                    self.bd_tools.add_user(event.user_id, worksheet["id"])  # добавление если нет в базе
+                    if self.bd_tools.check_user(event.user_id, worksheet["id"]) is False:
+                        self.bd_tools.add_user(event.user_id, worksheet["id"])  # добавление если нет в базе
 
                 elif event.text.lower() == 'пока':
                     self.message_send(

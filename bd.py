@@ -1,4 +1,5 @@
 # createdb -U postgres vkinder_diplom
+# запустить данный файл для создания таблиц
 
 # импорты
 import sqlalchemy as sq
