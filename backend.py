@@ -7,7 +7,7 @@ from vk_api.exceptions import ApiError
 from config import access_token
 
 
-#получение данных о пользователе
+# получение данных о пользователе
 
 class VkTools:
     def __init__(self, access_token):
@@ -23,24 +23,22 @@ class VkTools:
 
         try:
             info, = self.vkapi.method('users.get',
-                                    {
+                                      {
                                         'user_id': user_id,
                                         'fields': 'city, sex, bdate, relation'
-                                    }
-                                    )
-            '''  #если дата рождения или город, пол is None, то запрашивать у пользлвателя,обрабатывая result. Проверить его на поля, которые в нем None и те поля которые Noneотправить пользователю запрос. время вебинара 01:14:00 и 56:00'''
-
+                                      }
+                                      )
         except ApiError as e:
             info = {}
             print(f'error = {e}')
 
         result = {'name': (info['first_name'] + ' ' + info['last_name'])
-                        if 'first_name' in info and 'last_name' in info else None,
-                    'sex': info.get('sex'),
-                    'city': info.get('city')['title'] if info.get('city') is not None else None,
-                    'year': self._bdate_toyear(info.get('bdate')),
-                    'relation': info.get('relation')
-                }
+                  if 'first_name' in info and 'last_name' in info else None,
+                  'sex': info.get('sex'),
+                  'city': info.get('city')['title'] if info.get('city') is not None else None,
+                  'year': self._bdate_toyear(info.get('bdate')),
+                  'relation': info.get('relation')
+                  }
 
         return result
 
@@ -62,7 +60,7 @@ class VkTools:
             users = []
             print(f'error = {e}')
 
-        result = [{'name': item['first_name'] +' '+ item['last_name'],
+        result = [{'name': item['first_name'] + ' ' + item['last_name'],
                    'id': item['id']
                    } for item in users['items'] if item['is_closed'] is False
                   ]

@@ -8,7 +8,7 @@ from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 from config import community_token, access_token
 from backend import VkTools
 from bd import BdTools
-from bd import engine    #++++++++++++
+from bd import engine    # ++++++++++++
 
 # отправка сообщений
 
@@ -51,15 +51,24 @@ class BotInterface():
                     if self.params is not None:  # Ошибка если инф. не получена
                         '''Запрос недостающих данных о пользователе'''
                         if not self.params['city']:
-                            self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в соей анкете ваш город проживания', keyboard=keyboard.get_keyboard())
+                            self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в своей '
+                                                             'анкете ваш город проживания',
+                                              keyboard=keyboard.get_keyboard())
                         elif not self.params['sex']:
-                            self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в соей анкете ваш пол', keyboard=keyboard.get_keyboard())
+                            self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в своей '
+                                                             'анкете ваш пол',
+                                              keyboard=keyboard.get_keyboard())
                         elif not self.params['year']:
-                            self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в соей анкете вашу дату рождения', keyboard=keyboard.get_keyboard())
+                            self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в своей '
+                                                             'анкете вашу дату рождения',
+                                              keyboard=keyboard.get_keyboard())
                         elif not self.params['relation']:
-                            self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в соей анкете ваше семейное положение', keyboard=keyboard.get_keyboard())
+                            self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в своей '
+                                                             'анкете ваше семейное положение',
+                                              keyboard=keyboard.get_keyboard())
                         else:
-                            self.message_send(event.user_id, f'Привет, {self.params["name"]}!, нажми "Поиск", чтобы я нашел анкеты', keyboard=keyboard.get_keyboard())
+                            self.message_send(event.user_id, f'Привет, {self.params["name"]}!, нажми "Поиск", '
+                                                             f'чтобы я нашел анкеты', keyboard=keyboard.get_keyboard())
                     else:
                         self.message_send(event.user_id, 'Ошибка получения данных', keyboard=keyboard.get_keyboard())
                 elif event.text.lower() == 'поиск':
@@ -76,7 +85,7 @@ class BotInterface():
                         self.worksheets = self.vk_tools.search_worksheet(self.params, self.offset)
                         worksheet = self.worksheets.pop()
                         '''првоерка анкеты в бд в соотвествие с event.user_id'''
-                        # if self.bd_tools.check_user(event.user_id, worksheet["id"]) is False:   #+++
+                        # if self.bd_tools.check_user(event.user_id, worksheet["id"]) is False:   #+++++++
 
                         photos = self.vk_tools.get_photos(worksheet['id'])
                         photo_string = ''
@@ -100,7 +109,6 @@ class BotInterface():
                 else:
                     self.message_send(
                         event.user_id, 'Неизвестная команда', keyboard=keyboard.get_keyboard())
-
 
     def chat_keyboard(self, buttons, button_colors):
         """Клавиатура"""
