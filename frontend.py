@@ -47,7 +47,7 @@ class BotInterface():
                     if self.params is not None:  # Ошибка если инф. не получена
                         '''Запрос недостающих данных о пользователе'''
                         if not self.params['city']:
-                            self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в соей анкете ваш город', keyboard=keyboard.get_keyboard())
+                            self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в соей анкете ваш город проживания', keyboard=keyboard.get_keyboard())
                         elif not self.params['sex']:
                             self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в соей анкете ваш пол', keyboard=keyboard.get_keyboard())
                         elif not self.params['year']:
@@ -55,7 +55,7 @@ class BotInterface():
                         elif not self.params['relation']:
                             self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в соей анкете ваше семейное положение', keyboard=keyboard.get_keyboard())
                         else:
-                            self.message_send(event.user_id, f'Привет друг, {self.params["name"]}!', keyboard=keyboard.get_keyboard())
+                            self.message_send(event.user_id, f'Привет, {self.params["name"]}!, нажми "Поиск", чтобы я нашел анкеты', keyboard=keyboard.get_keyboard())
                     else:
                         self.message_send(event.user_id, 'Ошибка получения данных', keyboard=keyboard.get_keyboard())
                 elif event.text.lower() == 'поиск':
@@ -69,11 +69,9 @@ class BotInterface():
                         for photo in photos:
                             photo_string += f'photo{photo["owner_id"]}_{photo["id"]},'
                     else:
-                        self.worksheets = self.vk_tools.search_worksheet(
-                            self.params, self.offset)
-
+                        self.worksheets = self.vk_tools.search_worksheet(self.params, self.offset)
                         worksheet = self.worksheets.pop()
-                        'првоерка анкеты в бд в соотвествие с event.user_id'
+                        '''првоерка анкеты в бд в соотвествие с event.user_id'''
 
                         photos = self.vk_tools.get_photos(worksheet['id'])
                         photo_string = ''
@@ -83,7 +81,7 @@ class BotInterface():
 
                     self.message_send(
                         event.user_id,
-                        f'Имя: {worksheet["name"]} Ссылка: vk.com/id{worksheet["id"]}',
+                        f'Имя: {worksheet["name"]}. Страница: vk.com/id{worksheet["id"]}',
                         attachment=photo_string, keyboard=keyboard.get_keyboard()
                     )
 

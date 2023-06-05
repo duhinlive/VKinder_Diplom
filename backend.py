@@ -50,7 +50,7 @@ class VkTools:
                                       {
                                           'count': 50,
                                           'offset': offset,
-                                          'home_town': params['city'],
+                                          'hometown': params['city'] if params['city'] else 'Москва',
                                           'sex': 1 if params['sex'] == 2 else 2,
                                           'has_photo': True,
                                           'age_from': params['year'] - 3,
@@ -93,12 +93,12 @@ class VkTools:
         return sorted_result[:3]
 
 
-if __name__ == '__main__':
-    user_id = 803689260
-    tools = VkTools(access_token)
-    params = tools.get_profile_info(user_id)
-    worksheets = tools.search_worksheet(params, 20)
-    worksheet = worksheets.pop()
-    photos = tools.get_photos(worksheet['id'])
-
-    pprint(worksheets)
+# if __name__ == '__main__':
+#     user_id = 803689260
+#     tools = VkTools(access_token)
+#     params = tools.get_profile_info(user_id)
+#     worksheets = tools.search_worksheet(params, 20)
+#     worksheet = worksheets.pop()
+#     photos = tools.get_photos(worksheet['id'])
+#
+#     pprint(worksheets)
