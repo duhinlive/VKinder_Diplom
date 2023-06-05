@@ -45,10 +45,17 @@ class BotInterface():
                     '''Логика для получения данных о пользователе'''
                     self.params = self.vk_tools.get_profile_info(event.user_id)
                     if self.params is not None:  # Ошибка если инф. не получена
-                        self.message_send(event.user_id, f'Привет друг, {self.params["name"]}!', keyboard=keyboard.get_keyboard())
-
-                            # if ....  если нет города даты рожд или пола то запросить и обработать
-
+                        '''Запрос недостающих данных о пользователе'''
+                        if not self.params['city']:
+                            self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в соей анкете ваш город', keyboard=keyboard.get_keyboard())
+                        elif not self.params['sex']:
+                            self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в соей анкете ваш пол', keyboard=keyboard.get_keyboard())
+                        elif not self.params['year']:
+                            self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в соей анкете вашу дату рождения', keyboard=keyboard.get_keyboard())
+                        elif not self.params['relation']:
+                            self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в соей анкете ваше семейное положение', keyboard=keyboard.get_keyboard())
+                        else:
+                            self.message_send(event.user_id, f'Привет друг, {self.params["name"]}!', keyboard=keyboard.get_keyboard())
                     else:
                         self.message_send(event.user_id, 'Ошибка получения данных', keyboard=keyboard.get_keyboard())
                 elif event.text.lower() == 'поиск':

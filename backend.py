@@ -36,9 +36,10 @@ class VkTools:
 
         result = {'name': (info['first_name'] + ' ' + info['last_name'])
                         if 'first_name' in info and 'last_name' in info else None,
-                'sex': info.get('sex'),
-                'city': info.get('city')['title'] if info.get('city') is not None else None,
-                'year': self._bdate_toyear(info.get('bdate'))
+                    'sex': info.get('sex'),
+                    'city': info.get('city')['title'] if info.get('city') is not None else None,
+                    'year': self._bdate_toyear(info.get('bdate')),
+                    'relation': info.get('relation')
                 }
 
         return result
