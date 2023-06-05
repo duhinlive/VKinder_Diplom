@@ -35,7 +35,7 @@ class BotInterface():
     def event_handler(self):
         for event in self.longpoll.listen():
 
-            # Кнопки
+            ''''Кнопки'''
             buttons = ['Привет', 'Поиск', 'Пока']
             button_colors = [VkKeyboardColor.PRIMARY, VkKeyboardColor.PRIMARY, VkKeyboardColor.PRIMARY]
             keyboard = self.chat_keyboard(buttons, button_colors)

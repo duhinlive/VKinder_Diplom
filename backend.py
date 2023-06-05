@@ -93,12 +93,12 @@ class VkTools:
         return sorted_result[:3]
 
 
-# if __name__ == '__main__':
-#     user_id = 803689260
-#     tools = VkTools(access_token)
-#     params = tools.get_profile_info(user_id)
-#     worksheets = tools.search_worksheet(params, 20)
-#     worksheet = worksheets.pop()
-#     photos = tools.get_photos(worksheet['id'])
-#
-#     pprint(worksheets)
+if __name__ == '__main__':
+    user_id = 803689260
+    tools = VkTools(access_token)
+    params = tools.get_profile_info(user_id)
+    worksheets = tools.search_worksheet(params, 20)
+    worksheet = worksheets.pop()
+    photos = tools.get_photos(worksheet['id'])
+
+    pprint(worksheets)

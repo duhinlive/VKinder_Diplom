@@ -3,7 +3,6 @@ import sqlalchemy as sq
 from sqlalchemy.orm import declarative_base
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import Session
-# import psycopg2
 
 
 from config import db_url_object
@@ -42,6 +41,6 @@ def check_user(engine, profile_id, worksheet_id):
 if __name__ == '__main__':
     engine = create_engine(db_url_object)
     Base.metadata.create_all(engine)
-    # add_user(engine, 2113, 124512)
-    res = check_user(engine, 2113, 1245121)
+    add_user(engine, 803689260, 62590946)
+    res = check_user(engine, 803689260, 62590946)
     print(res)
