@@ -101,7 +101,7 @@ class BotInterface():
 
                     'добавление анкеты в бд в соотвествие с event.user_id'
                     if self.bd_tools.check_user(event.user_id, worksheet["id"]) is False:
-                        self.bd_tools.add_user(event.user_id, worksheet["id"])  # добавление если нет в базе
+                        self.bd_tools.add_user(event.user_id, worksheet["id"])  # добавление, если нет в базе
 
                 elif event.text.lower() == 'пока':
                     self.message_send(
