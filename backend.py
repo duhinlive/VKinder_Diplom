@@ -87,7 +87,7 @@ class VkTools:
                    } for item in photos['items']
                   ]
         '''сортировка по лайкам и комментам'''
-        sorted_result = sorted(result, key=lambda x: (x['likes'], x['comments']), reverse=True)
+        sorted_result = sorted(result, key=lambda x: (x['likes'], x['comments']), reverse=True)  # +++++
         return sorted_result[:3]
 
 

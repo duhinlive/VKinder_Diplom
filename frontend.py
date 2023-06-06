@@ -67,14 +67,15 @@ class BotInterface():
                                                              'анкете ваше семейное положение',
                                               keyboard=keyboard.get_keyboard())
                         else:
-                            self.message_send(event.user_id, f'Привет, {self.params["name"]}!, нажми "Поиск", '
-                                                             f'чтобы я нашел анкеты', keyboard=keyboard.get_keyboard())
+                            self.message_send(event.user_id, f'Привет, {self.params["name"]}, нажми "Поиск", '
+                                                             'чтобы я нашел анкеты', keyboard=keyboard.get_keyboard())
                     else:
                         self.message_send(event.user_id, 'Ошибка получения данных', keyboard=keyboard.get_keyboard())
+
                 elif event.text.lower() == 'поиск':
                     '''Логика для поиска анкет'''
                     self.message_send(
-                        event.user_id, 'Начинаем поиск', keyboard=keyboard.get_keyboard())
+                        event.user_id, 'Идет поиск...', keyboard=keyboard.get_keyboard())
                     if self.worksheets:
                         worksheet = self.worksheets.pop()
                         photos = self.vk_tools.get_photos(worksheet['id'])
@@ -84,8 +85,14 @@ class BotInterface():
                     else:
                         self.worksheets = self.vk_tools.search_worksheet(self.params, self.offset)
                         worksheet = self.worksheets.pop()
-                        '''првоерка анкеты в бд в соотвествие с event.user_id'''
-                        # if self.bd_tools.check_user(event.user_id, worksheet["id"]) is False:   #+++++++
+
+                    '''првоерка анкеты в бд в соотвествие с event.user_id'''
+                    while self.bd_tools.check_user(event.user_id, worksheet["id"]) is True:  # +++++++
+                        worksheet = self.worksheets.pop()
+
+                    'добавление анкеты в бд в соотвествие с event.user_id'
+                    if self.bd_tools.check_user(event.user_id, worksheet["id"]) is False:
+                        self.bd_tools.add_user(event.user_id, worksheet["id"])  # добавление, если нет в базе
 
                         photos = self.vk_tools.get_photos(worksheet['id'])
                         photo_string = ''
@@ -93,15 +100,11 @@ class BotInterface():
                             photo_string += f'photo{photo["owner_id"]}_{photo["id"]},'
                         self.offset += 50
 
-                    self.message_send(
-                        event.user_id,
-                        f'Имя: {worksheet["name"]}. Страница: vk.com/id{worksheet["id"]}',
-                        attachment=photo_string, keyboard=keyboard.get_keyboard()
-                    )
-
-                    'добавление анкеты в бд в соотвествие с event.user_id'
-                    if self.bd_tools.check_user(event.user_id, worksheet["id"]) is False:
-                        self.bd_tools.add_user(event.user_id, worksheet["id"])  # добавление, если нет в базе
+                        self.message_send(
+                            event.user_id,
+                            f'Имя: {worksheet["name"]}. Страница: vk.com/id{worksheet["id"]}',
+                            attachment=photo_string, keyboard=keyboard.get_keyboard()
+                        )
 
                 elif event.text.lower() == 'пока':
                     self.message_send(
