@@ -51,8 +51,8 @@ class VkTools:
                                           'hometown': params['city'] if params['city'] else 'Москва',
                                           'sex': 1 if params['sex'] == 2 else 2,
                                           'has_photo': True,
-                                          'age_from': params['year'] - 3,
-                                          'age_to': params['year'] + 3,
+                                          'age_from': params['year'] - 6,
+                                          'age_to': params['year'] - 3,
                                       }
                                       )
 

@@ -45,27 +45,38 @@ class BotInterface():
             keyboard = self.chat_keyboard(buttons, button_colors)
 
             if event.type == VkEventType.MESSAGE_NEW and event.to_me:
+                self.params = self.vk_tools.get_profile_info(event.user_id)
                 if event.text.lower() == 'привет':
                     '''Логика для получения данных о пользователе'''
-                    self.params = self.vk_tools.get_profile_info(event.user_id)
+
                     if self.params is not None:  # Ошибка если инф. не получена
                         '''Запрос недостающих данных о пользователе'''
+
                         if not self.params['city']:
-                            self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в своей '
-                                                             'анкете ваш город проживания',
+                            self.message_send(event.user_id, 'Введите название вашего города проживания:',
                                               keyboard=keyboard.get_keyboard())
+                            while True:
+                                for event_ in self.longpoll.listen():
+                                    if (event_.type == VkEventType.MESSAGE_NEW and event_.to_me
+                                            and event_.user_id == event.user_id):
+                                        self.params = self.vk_tools.get_profile_info(event.user_id)
+                                        self.params['city'] = event_.text
+                                        break
+                                if self.params['city']:
+                                    self.message_send(event.user_id, 'Принято', keyboard=keyboard.get_keyboard())
+                                    break
+                            self.params = self.vk_tools.get_profile_info(event.user_id)
+
+
                         elif not self.params['sex']:
-                            self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в своей '
-                                                             'анкете ваш пол',
-                                              keyboard=keyboard.get_keyboard())
+                            self.message_send(event.user_id, 'Введите ваш пол (м/ж):', keyboard=keyboard.get_keyboard())
+                            self.params['sex'] = 2 if event.text == 'м' else 1  # ++++++++
                         elif not self.params['year']:
-                            self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в своей '
-                                                             'анкете вашу дату рождения',
-                                              keyboard=keyboard.get_keyboard())
+                            self.message_send(event.user_id, 'Введите ваш возраст:', keyboard=keyboard.get_keyboard())
+                            self.params['year'] = event.text  # ++++++++
                         elif not self.params['relation']:
-                            self.message_send(event.user_id, 'Для корректного поиска, пожалуйста, укажите в своей '
-                                                             'анкете ваше семейное положение',
-                                              keyboard=keyboard.get_keyboard())
+                            self.params['relation'] = 6  # в активном поиске
+
                         else:
                             self.message_send(event.user_id, f'Привет, {self.params["name"]}, нажми "Поиск", '
                                                              'чтобы я нашел анкеты', keyboard=keyboard.get_keyboard())
