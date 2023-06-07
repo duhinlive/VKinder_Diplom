@@ -56,23 +56,40 @@ class BotInterface():
                                               keyboard=keyboard.get_keyboard())
                             while True:
                                 for event_ in self.longpoll.listen():
-                                    if (event_.type == VkEventType.MESSAGE_NEW and event_.to_me
-                                            and event_.user_id == event.user_id):
+                                    if event_.type == VkEventType.MESSAGE_NEW and event_.to_me:
                                         self.params = self.vk_tools.get_profile_info(event.user_id)
                                         self.params['city'] = event_.text
                                         break
                                 if self.params['city']:
                                     self.message_send(event.user_id, '---Принято---', keyboard=keyboard.get_keyboard())
                                     break
-                            self.params = self.vk_tools.get_profile_info(event.user_id)
-
 
                         elif not self.params['sex']:
                             self.message_send(event.user_id, 'Введите ваш пол (м/ж):', keyboard=keyboard.get_keyboard())
                             self.params['sex'] = 2 if event.text == 'м' else 1  # ++++++++
+                            while True:
+                                for event_ in self.longpoll.listen():
+                                    if event_.type == VkEventType.MESSAGE_NEW and event_.to_me:
+                                        self.params = self.vk_tools.get_profile_info(event.user_id)
+                                        self.params['sex'] = event_.text
+                                        break
+                                if self.params['sex']:
+                                    self.message_send(event.user_id, '---Принято---', keyboard=keyboard.get_keyboard())
+                                    break
+
                         elif not self.params['year']:
                             self.message_send(event.user_id, 'Введите ваш возраст:', keyboard=keyboard.get_keyboard())
                             self.params['year'] = event.text  # ++++++++
+                            while True:
+                                for event_ in self.longpoll.listen():
+                                    if event_.type == VkEventType.MESSAGE_NEW and event_.to_me:
+                                        self.params = self.vk_tools.get_profile_info(event.user_id)
+                                        self.params['year'] = event_.text
+                                        break
+                                if self.params['year']:
+                                    self.message_send(event.user_id, '---Принято---', keyboard=keyboard.get_keyboard())
+                                    break
+
                         elif not self.params['relation']:
                             self.params['relation'] = 6  # в активном поиске
 
