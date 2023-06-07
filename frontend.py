@@ -45,10 +45,9 @@ class BotInterface():
             keyboard = self.chat_keyboard(buttons, button_colors)
 
             if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-                self.params = self.vk_tools.get_profile_info(event.user_id)
                 if event.text.lower() == 'привет':
                     '''Логика для получения данных о пользователе'''
-
+                    self.params = self.vk_tools.get_profile_info(event.user_id)
                     if self.params is not None:  # Ошибка если инф. не получена
                         '''Запрос недостающих данных о пользователе'''
 
@@ -63,7 +62,7 @@ class BotInterface():
                                         self.params['city'] = event_.text
                                         break
                                 if self.params['city']:
-                                    self.message_send(event.user_id, 'Принято', keyboard=keyboard.get_keyboard())
+                                    self.message_send(event.user_id, '---Принято---', keyboard=keyboard.get_keyboard())
                                     break
                             self.params = self.vk_tools.get_profile_info(event.user_id)
 
