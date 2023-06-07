@@ -64,9 +64,8 @@ class BotInterface():
                                     self.message_send(event.user_id, '---Принято---', keyboard=keyboard.get_keyboard())
                                     break
 
-                        elif not self.params['sex']:
-                            self.message_send(event.user_id, f'Привет, {self.params["name"]}, введите ваш пол (м/ж):',
-                                              keyboard=keyboard.get_keyboard())
+                        elif not self.params['sex']:  # чё не срабатывает то второе условие после первого?
+                            self.message_send(event.user_id, 'Введите ваш пол (м/ж):', keyboard=keyboard.get_keyboard())
                             self.params['sex'] = 2 if event.text == 'м' else 1  # ++++++++
                             while True:
                                 for event_ in self.longpoll.listen():
@@ -79,8 +78,7 @@ class BotInterface():
                                     break
 
                         elif not self.params['year']:
-                            self.message_send(event.user_id, f'Привет, {self.params["name"]}, введите ваш возраст:',
-                                              keyboard=keyboard.get_keyboard())
+                            self.message_send(event.user_id, 'Введите ваш возраст:', keyboard=keyboard.get_keyboard())
                             self.params['year'] = event.text  # ++++++++
                             while True:
                                 for event_ in self.longpoll.listen():
