@@ -52,8 +52,8 @@ class BotInterface():
                         '''Запрос недостающих данных о пользователе'''
 
                         if not self.params['city']:
-                            self.message_send(event.user_id, 'Введите название вашего города проживания:',
-                                              keyboard=keyboard.get_keyboard())
+                            self.message_send(event.user_id, f'Привет, {self.params["name"]}, введите название вашего '
+                                                             'города проживания:', keyboard=keyboard.get_keyboard())
                             while True:
                                 for event_ in self.longpoll.listen():
                                     if event_.type == VkEventType.MESSAGE_NEW and event_.to_me:
@@ -65,7 +65,8 @@ class BotInterface():
                                     break
 
                         elif not self.params['sex']:
-                            self.message_send(event.user_id, 'Введите ваш пол (м/ж):', keyboard=keyboard.get_keyboard())
+                            self.message_send(event.user_id, f'Привет, {self.params["name"]}, введите ваш пол (м/ж):',
+                                              keyboard=keyboard.get_keyboard())
                             self.params['sex'] = 2 if event.text == 'м' else 1  # ++++++++
                             while True:
                                 for event_ in self.longpoll.listen():
@@ -78,7 +79,8 @@ class BotInterface():
                                     break
 
                         elif not self.params['year']:
-                            self.message_send(event.user_id, 'Введите ваш возраст:', keyboard=keyboard.get_keyboard())
+                            self.message_send(event.user_id, f'Привет, {self.params["name"]}, введите ваш возраст:',
+                                              keyboard=keyboard.get_keyboard())
                             self.params['year'] = event.text  # ++++++++
                             while True:
                                 for event_ in self.longpoll.listen():
