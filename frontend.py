@@ -90,7 +90,7 @@ class BotInterface():
                                     self.message_send(event.user_id, '---Принято---', keyboard=keyboard.get_keyboard())
                                     break
 
-                        elif not self.params['relation']:
+                        elif not self.params['relation'] or self.params['relation']:
                             self.params['relation'] = 6  # в активном поиске
 
                         else:
