@@ -77,7 +77,7 @@ class BotInterface():
                                     self.message_send(event.user_id, '---Принято---', keyboard=keyboard.get_keyboard())
                                     break
 
-                        elif not self.params['year']:
+                        elif not self.params['year']:   # нужно добавить если год скрыт у пользователя
                             self.message_send(event.user_id, 'Введите ваш возраст:', keyboard=keyboard.get_keyboard())
                             self.params['year'] = event.text  # ++++++++
                             while True:
