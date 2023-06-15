@@ -48,6 +48,7 @@ class BotInterface():
                 if event.text.lower() == 'привет':
                     '''Логика для получения данных о пользователе'''
                     self.params = self.vk_tools.get_profile_info(event.user_id)
+                    self.message_send(event.user_id, f'Привет, {self.params["name"]}', keyboard=keyboard.get_keyboard())
                     if self.params is not None:  # Ошибка если инф. не получена
                         '''Запрос недостающих данных о пользователе'''
 
