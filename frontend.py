@@ -97,7 +97,7 @@ class BotInterface():
                         event.user_id, 'Неизвестная команда', keyboard=keyboard.get_keyboard())
 
     def event_greeting(self, user_id, keyboard):
-        self.message_send(user_id, f'Привет, {self.params["name"]}', keyboard=keyboard.get_keyboard())
+        self.message_send(user_id, f'Привет, {self.params["name"]}!', keyboard=keyboard.get_keyboard())
 
     def event_city_input(self, user_id, keyboard):
         self.message_send(user_id, 'Введите название вашего города проживания:',
@@ -110,10 +110,10 @@ class BotInterface():
             self.message_send(user_id, 'ОК', keyboard=keyboard.get_keyboard())
 
     def event_sex_input(self, user_id, keyboard):
-        self.message_send(user_id, 'Введите ваш пол М - мужской, Ж - женский:', keyboard=keyboard.get_keyboard())
+        self.message_send(user_id, 'Введите ваш пол м - мужской, ж - женский:', keyboard=keyboard.get_keyboard())
         for event in self.longpoll.listen():
             if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-                self.params['sex'] = event.text
+                self.params['sex'] = 2 if event.text == 'м' else 1
                 break
         if self.params['sex']:
             self.message_send(user_id, 'ОК', keyboard=keyboard.get_keyboard())
